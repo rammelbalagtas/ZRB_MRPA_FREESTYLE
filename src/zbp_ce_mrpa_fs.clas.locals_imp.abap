@@ -20,6 +20,8 @@ CLASS lhc_ZMRPA DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR LOCK zmrpa.
     METHODS getmrpdata FOR MODIFY
       IMPORTING keys FOR ACTION zmrpa~getmrpdata RESULT result.
+    METHODS getmrp FOR MODIFY
+      IMPORTING keys FOR ACTION zmrpa~getmrp RESULT result.
 
 ENDCLASS.
 
@@ -46,11 +48,21 @@ CLASS lhc_ZMRPA IMPLEMENTATION.
   METHOD getMRPData.
 
     DATA: ls_data TYPE STRUCTURE FOR HIERARCHY zae_zmrp_material\\material.
+    DATA: lt_matrange TYPE RANGE OF zde_material.
+    DATA: lt_mrprange TYPE RANGE OF zmrp.
 
     DATA lt_mrp TYPE TABLE OF zae_zmrp_mrp.
     DATA lt_customer TYPE TABLE OF zae_zmrp_customer.
 
-    SELECT * FROM zmrpadb WHERE plant = 'YYZA' AND material = 'KXTGD390A' INTO TABLE @DATA(lt_zmrpa).
+    DATA(ls_key) = keys[ 1 ].
+    IF ls_key-%param-material IS NOT INITIAL.
+
+    ELSE.
+
+    ENDIF.
+    ls_key-%param-plant = 'YYZA'.
+    SELECT * FROM zmrpadb WHERE plant = @ls_key-%param-plant AND material = 'KXTGD390A' INTO TABLE @DATA(lt_zmrpa).
+
     ls_data-name = 'KXTGD390A'.
     LOOP AT lt_zmrpa INTO DATA(ls_zmrpa)
                           GROUP BY ls_zmrpa-mrp.
@@ -78,11 +90,17 @@ CLASS lhc_ZMRPA IMPLEMENTATION.
         ls_data-currentAvailable = ls_data-currentAvailable + member-available.
         <fs_mrp>-currentAvailable = <fs_mrp>-currentAvailable + member-available.
       ENDLOOP.
+      IF lv_tabix = 1.
+        CLEAR <fs_mrp>-data.
+      ENDIF.
     ENDLOOP.
 
     result = VALUE #( ( %cid = keys[ 1 ]-%cid
                       %param = ls_data ) ) .
 
+  ENDMETHOD.
+
+  METHOD getMRP.
   ENDMETHOD.
 
 ENDCLASS.

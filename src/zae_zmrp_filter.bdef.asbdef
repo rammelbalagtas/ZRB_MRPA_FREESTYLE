@@ -1,0 +1,20 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+
+define behavior for ZAE_ZMRP_FILTER alias Filter
+{
+  field ( suppress ) DummyKey;
+  association matrange;
+  association mrprange;
+}
+
+define behavior for ZAE_ZMRP_MATRANGE alias MatRange
+{
+  field ( suppress ) DummyKey;
+}
+
+define behavior for ZAE_ZMRP_MRPRANGE alias MRPRange
+{
+  field ( suppress ) DummyKey;
+}

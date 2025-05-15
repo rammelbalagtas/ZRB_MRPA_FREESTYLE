@@ -9,5 +9,6 @@ authorization master ( instance )
   update;
   delete;
   field ( readonly ) plant, material, mrp, customer;
-  static action getMRPData deep result [0..*] ZAE_ZMRP_MATERIAL;
+  static action getMRPData deep parameter ZAE_ZMRP_FILTER deep result [0..*] ZAE_ZMRP_MATERIAL;
+  static action getMRP deep parameter ZAE_ZMRP_FILTER deep result [0..*] ZAE_ZMRP_MATERIAL;
 }
