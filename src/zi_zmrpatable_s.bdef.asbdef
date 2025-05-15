@@ -1,0 +1,82 @@
+managed implementation in class ZBP_I_ZMRPATABLE_S unique;
+strict;
+with draft;
+define behavior for ZI_ZmrpaTable_S alias ZmrpaTableAll
+draft table ZMRPADB_D_S
+with unmanaged save
+lock master total etag LastChangedAtMax
+authorization master( global )
+
+{
+  field ( readonly )
+   SingletonID;
+
+  field ( notrigger )
+   SingletonID,
+   LastChangedAtMax;
+
+
+  update;
+  internal create;
+  internal delete;
+
+  draft action ( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  association _ZmrpaTable { create ( features : instance ); with draft; }
+}
+
+define behavior for ZI_ZmrpaTable alias ZmrpaTable ##UNMAPPED_FIELD
+persistent table ZMRPADB
+draft table ZMRPADB_D
+lock dependent by _ZmrpaTableAll
+authorization dependent by _ZmrpaTableAll
+
+{
+  field ( mandatory : create )
+   Plant,
+   Mrp,
+   Customer,
+   Material;
+
+  field ( readonly )
+   SingletonID;
+
+  field ( readonly : update )
+   Plant,
+   Mrp,
+   Customer,
+   Material;
+
+  field ( notrigger )
+   SingletonID;
+
+
+  update( features : global );
+  delete( features : global );
+
+  factory action ( features : instance ) CopyZmrpaTable parameter ZD_CopyZmrpaTableP [1];
+
+  mapping for ZMRPADB
+  {
+    Plant = PLANT;
+    Mrp = MRP;
+    Customer = CUSTOMER;
+    Material = MATERIAL;
+    Opendelivery = OPENDELIVERY;
+    Boqty = BOQTY;
+    Unr = UNR;
+    Qa = QA;
+    Block = BLOCK;
+    Available = AVAILABLE;
+    Createdby = CREATEDBY;
+    Createdat = CREATEDAT;
+    Lastchangedby = LASTCHANGEDBY;
+    Lastchangedat = LASTCHANGEDAT;
+  }
+
+  association _ZmrpaTableAll { with draft; }
+}

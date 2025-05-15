@@ -1,0 +1,5 @@
+@ObjectModel.leadingEntity.name: 'ZI_ZmrpaTable_S'
+define service ZUI_ZMRPATABLE {
+  expose ZI_ZMRPATABLE_S as ZmrpaTableAll;
+  expose ZI_ZMRPATABLE as ZmrpaTable;
+}

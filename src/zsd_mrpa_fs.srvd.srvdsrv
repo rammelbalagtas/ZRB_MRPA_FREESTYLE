@@ -1,0 +1,7 @@
+@EndUserText.label: 'ZMRPA'
+define service ZSD_MRPA_FS {
+  expose ZCE_MRPA_FS;
+  expose ZCE_PLANTVH;
+  expose ZCE_MATERIAL_VH;
+  expose ZCE_MRPVH;
+}

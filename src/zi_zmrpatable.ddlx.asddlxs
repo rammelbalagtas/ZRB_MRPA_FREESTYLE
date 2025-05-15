@@ -1,0 +1,139 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'ZmrpaTable', 
+    typeNamePlural: 'ZmrpaTables', 
+    title: {
+      type: #STANDARD, 
+      label: 'ZMRPA table', 
+      value: 'Plant'
+    }
+  }
+}
+annotate view ZI_ZmrpaTable with
+{
+  @UI.identification: [ {
+    position: 1 
+  } ]
+  @UI.lineItem: [ {
+    position: 1 
+  }, 
+  {
+    type: #FOR_ACTION, 
+    dataAction: 'CopyZmrpaTable', 
+    label: 'Copy Selected Entry', 
+    invocationGrouping: #CHANGE_SET
+  } ]
+  @UI.facet: [ {
+    id: 'ZI_ZmrpaTable', 
+    purpose: #STANDARD, 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'ZMRPA table', 
+    position: 1 
+  } ]
+  Plant;
+  
+  @UI.identification: [ {
+    position: 2 
+  } ]
+  @UI.lineItem: [ {
+    position: 2 
+  } ]
+  Mrp;
+  
+  @UI.identification: [ {
+    position: 3 
+  } ]
+  @UI.lineItem: [ {
+    position: 3 
+  } ]
+  Customer;
+  
+  @UI.identification: [ {
+    position: 4 
+  } ]
+  @UI.lineItem: [ {
+    position: 4 
+  } ]
+  Material;
+  
+  @UI.identification: [ {
+    position: 5 , 
+    label: 'Opendelivery'
+  } ]
+  @UI.lineItem: [ {
+    position: 5 , 
+    label: 'Opendelivery'
+  } ]
+  Opendelivery;
+  
+  @UI.identification: [ {
+    position: 6 , 
+    label: 'Boqty'
+  } ]
+  @UI.lineItem: [ {
+    position: 6 , 
+    label: 'Boqty'
+  } ]
+  Boqty;
+  
+  @UI.identification: [ {
+    position: 7 , 
+    label: 'Unr'
+  } ]
+  @UI.lineItem: [ {
+    position: 7 , 
+    label: 'Unr'
+  } ]
+  Unr;
+  
+  @UI.identification: [ {
+    position: 8 , 
+    label: 'Qa'
+  } ]
+  @UI.lineItem: [ {
+    position: 8 , 
+    label: 'Qa'
+  } ]
+  Qa;
+  
+  @UI.identification: [ {
+    position: 9 , 
+    label: 'Block'
+  } ]
+  @UI.lineItem: [ {
+    position: 9 , 
+    label: 'Block'
+  } ]
+  Block;
+  
+  @UI.identification: [ {
+    position: 10 , 
+    label: 'Available'
+  } ]
+  @UI.lineItem: [ {
+    position: 10 , 
+    label: 'Available'
+  } ]
+  Available;
+  
+  @UI.identification: [ {
+    position: 11 
+  } ]
+  Createdby;
+  
+  @UI.identification: [ {
+    position: 12 
+  } ]
+  Createdat;
+  
+  @UI.identification: [ {
+    position: 13 
+  } ]
+  Lastchangedby;
+  
+  @UI.identification: [ {
+    position: 14 
+  } ]
+  Lastchangedat;
+}

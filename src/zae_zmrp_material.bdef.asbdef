@@ -1,0 +1,25 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+
+define behavior for ZAE_ZMRP_MATERIAL alias Material
+{
+  field ( suppress ) DummyKey;
+  association data;
+  association matlist;
+}
+
+define behavior for ZAE_ZMRP_MATLIST alias MaterialList
+{
+  field ( suppress ) DummyKey;
+}
+
+define behavior for ZAE_ZMRP_MRP alias MRP
+{
+  field ( suppress ) DummyKey;
+  association data;
+}
+
+define behavior for ZAE_ZMRP_CUSTOMER alias Customer
+{
+}
