@@ -12,7 +12,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_ce_materialvh IMPLEMENTATION.
+CLASS ZCL_CE_MATERIALVH IMPLEMENTATION.
+
 
   METHOD if_rap_query_provider~select.
     CASE io_request->get_entity_id( ).

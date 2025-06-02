@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zmrpa_fs_datagenerator IMPLEMENTATION.
+CLASS ZMRPA_FS_DATAGENERATOR IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

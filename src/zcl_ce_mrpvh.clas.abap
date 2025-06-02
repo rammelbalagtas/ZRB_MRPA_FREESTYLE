@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_ce_mrpvh IMPLEMENTATION.
+CLASS ZCL_CE_MRPVH IMPLEMENTATION.
 
 
   METHOD if_rap_query_provider~select.

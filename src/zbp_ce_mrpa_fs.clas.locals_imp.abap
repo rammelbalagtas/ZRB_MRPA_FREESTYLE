@@ -20,8 +20,8 @@ CLASS lhc_ZMRPA DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR LOCK zmrpa.
     METHODS getmrpdata FOR MODIFY
       IMPORTING keys FOR ACTION zmrpa~getmrpdata RESULT result.
-    METHODS getmrp FOR MODIFY
-      IMPORTING keys FOR ACTION zmrpa~getmrp RESULT result.
+    METHODS savemrpdata FOR MODIFY
+      IMPORTING keys FOR ACTION zmrpa~savemrpdata.
 
 ENDCLASS.
 
@@ -49,6 +49,7 @@ CLASS lhc_ZMRPA IMPLEMENTATION.
 
     DATA: ls_data TYPE STRUCTURE FOR HIERARCHY zae_zmrp_material\\material.
     DATA: lt_matrange TYPE RANGE OF zde_material.
+    DATA: lv_material TYPE zde_material.
     DATA: lt_mrprange TYPE RANGE OF zmrp.
 
     DATA lt_mrp TYPE TABLE OF zae_zmrp_mrp.
@@ -56,14 +57,49 @@ CLASS lhc_ZMRPA IMPLEMENTATION.
 
     DATA(ls_key) = keys[ 1 ].
     IF ls_key-%param-material IS NOT INITIAL.
-
+       lv_material = ls_key-%param-material.
     ELSE.
+      IF ls_key-%param-matrange IS NOT INITIAL.
+        LOOP AT ls_key-%param-matrange INTO DATA(ls_material).
+          APPEND INITIAL LINE TO lt_matrange ASSIGNING FIELD-SYMBOL(<fs_material>).
+          <fs_material>-sign = 'I'.
+          <fs_material>-option = 'EQ'.
+          <fs_material>-low = ls_material-material.
+        ENDLOOP.
+      ELSE.
+        SELECT DISTINCT material FROM zmrpadb INTO TABLE @DATA(lt_matlist).
+        LOOP AT lt_matlist INTO DATA(ls_material_db).
+          APPEND INITIAL LINE TO lt_matrange ASSIGNING <fs_material>.
+          <fs_material>-sign = 'I'.
+          <fs_material>-option = 'EQ'.
+          <fs_material>-low = ls_material_db-material.
+        ENDLOOP.
+      ENDIF.
 
+      LOOP AT lt_matrange INTO DATA(ls_matrange).
+        APPEND INITIAL LINE TO ls_data-matlist ASSIGNING FIELD-SYMBOL(<fs_matlist>).
+        <fs_matlist>-material = ls_matrange-low.
+      ENDLOOP.
+
+      lv_material = lt_matrange[ 1 ]-low.
     ENDIF.
-    ls_key-%param-plant = 'YYZA'.
-    SELECT * FROM zmrpadb WHERE plant = @ls_key-%param-plant AND material = 'KXTGD390A' INTO TABLE @DATA(lt_zmrpa).
 
-    ls_data-name = 'KXTGD390A'.
+    IF ls_key-%param-mrprange IS NOT INITIAL.
+      LOOP AT ls_key-%param-mrprange INTO DATA(ls_mrp).
+        APPEND INITIAL LINE TO lt_mrprange ASSIGNING FIELD-SYMBOL(<fs_mrp_range>).
+        <fs_mrp_range>-sign = 'I'.
+        <fs_mrp_range>-option = 'EQ'.
+        <fs_mrp_range>-low = ls_mrp-mrp.
+      ENDLOOP.
+    ENDIF.
+
+    IF ls_key-%param-plant IS INITIAL.
+      ls_key-%param-plant = 'YYZA'.
+    ENDIF.
+
+    SELECT * FROM zmrpadb WHERE plant = @ls_key-%param-plant AND mrp IN @lt_mrprange AND material = @lv_material INTO TABLE @DATA(lt_zmrpa).
+
+    ls_data-name = lv_material.
     LOOP AT lt_zmrpa INTO DATA(ls_zmrpa)
                           GROUP BY ls_zmrpa-mrp.
       DATA(lv_tabix) = 0.
@@ -100,7 +136,10 @@ CLASS lhc_ZMRPA IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD getMRP.
+  METHOD saveMRPData.
+    DATA(lv_test) = 1.
+    IF 1 = 1.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.
